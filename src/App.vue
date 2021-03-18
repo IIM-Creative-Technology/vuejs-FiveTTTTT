@@ -2,10 +2,10 @@
   <Login @connection="connecting" v-if="!isConnected" />
   <div id="nav">
     <router-link to="/Admin">Gérer le blog</router-link> |
-    <router-link to="/blog">Blog</router-link> |
+    <router-link to="/blog">Blog</router-link>
     <!-- <router-link to="/login">Login</router-link> -->
   </div>
-  <router-view />
+  <router-view @editBlog="changeArticle" v-bind:blogs="blogs" />
   <!-- <Admin @remover="removeBlog" v-bind:blogs="blogs" /> -->
 </template>
 
@@ -20,8 +20,43 @@ export default {
     return {
       isConnected: true,
       blogs: [
-        { theImages: 1, content: "lorem" },
-        { theImages: 2, content: "ipsum" },
+        {
+          theImages: 1,
+          content: "lorem",
+          title: "mon premier blog",
+          metaTitle: "mon_premier_blog",
+          metaDescription: "ouais",
+          date: 17032021,
+          user: "moi",
+
+        },
+        {
+          theImages: 2,
+          content: "ipsum",
+          title: "mon deuxieme blog",
+          metaTitle: "mon_deuxieme_blog",
+          metaDescription: "ouais",
+          date: 17032021,
+          user: "moi",
+        },
+        {
+          theImages: 3,
+          content: "sincuae",
+          title: "mon troisieme blog",
+          metaTitle: "mon_troisieme_blog",
+          metaDescription: "ouais",
+          date: 17032021,
+          user: "moi",
+        },
+        {
+          theImages: 4,
+          content: "premium",
+          title: "mon quatrieme blog",
+          metaTitle: "mon_quatrieme_blog",
+          metaDescription: "ouais",
+          date: 17032021,
+          user: "moi",
+        },
       ],
     };
   },
@@ -30,6 +65,14 @@ export default {
     Login,
   },
   methods: {
+    changeArticle(payload) {
+      this.thecontent = payload.content;
+      this.theMetaTitle = payload.metaTitle;
+      this.theMetaDescription = payload.metaDescription;
+      this.blogs[payload.article].metaTitle = this.theMetaTitle;
+      this.blogs[payload.article].metaDescription = this.theMetaDescription;
+      this.blogs[payload.article].content = this.thecontent;
+    },
     // removeBlog(payload) {
     //   this.removerId = payload.removerId;
     //   let idCheck = this.removerId;
@@ -78,5 +121,12 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.nouvBlog h3 {
+    overflow: hidden;
+    text-decoration: underline;
+    height: 4vh;
+    width: 50%;
 }
 </style>
