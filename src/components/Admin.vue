@@ -1,6 +1,8 @@
 <template>
-  <!-- <Login v-if="theUser.name==''" /> -->
-  <div id="Admin">
+  <div v-if="theUser.name==''">
+    <Login v-bind:theUser="theUser" />
+  </div>
+  <div id="Admin" v-else>
     <button v-on:click="openCreate">Créer un article</button>
     <div id="myAdmin">
       <ul id="myBlogs">
@@ -25,9 +27,6 @@
           <br />
         </li>
       </ul>
-      <!-- <ul id="myBlogs" v-else>
-        <p>Aucun artticle n'a été créé</p>
-      </ul> -->
       <EditBlog
         @sendEdit="editBlog"
         @sendCreation="createArticle"
@@ -35,19 +34,20 @@
         v-bind:create="create"
         v-bind:theUser="theUser"
       />
-      <!-- <EditBlog @sendEdit="editBlog" /> -->
     </div>
   </div>
 </template>
 
 <script>
 import EditBlog from "./EditBlog.vue";
-// import Login from "./../components/Login";
+import Login from "./../components/Login";
+// import Blog from "./../components/Blog";
 
 export default {
   components: {
     EditBlog,
-    // Login,
+    // Blog,
+    Login,
   },
   props: ["blogs", "theUser"],
   name: "Admin",
@@ -107,7 +107,7 @@ export default {
       this.thecontent = payload.content;
       let theContent = this.thecontent;
 
-      this.user = payload.user;
+      this.user = payload.user.name;
       let user = this.user;
 
       this.theMetaTitle = payload.metaTitle;

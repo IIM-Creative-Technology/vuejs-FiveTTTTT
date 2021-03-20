@@ -1,8 +1,9 @@
 <template>
-  <div id="login">
+  <div id="login" v-if="theUser.name == ''">
     <form action="">
       <p>Nom</p>
-      <input type="text" id="theName" required/>
+      {{ theUser.name }}
+      <input type="text" id="theName" required />
       <br />
 
       <p>Email</p>
@@ -27,16 +28,20 @@
         required
       />
     </form>
-    <button v-if="isConnected" v-on:click="deconection">Se deconnecter</button>
+  </div>
+  <div id="logout" v-else>
+    <h2>Vous êtes connecté</h2>
+    <br /><br />
+    <button v-on:click="deconection">Se deconnecter</button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["isConnected"],
+  props: ["isConnected", "theUser"],
   methods: {
     deconection() {
-      // this.$emit("connection", { isConnected: index });
+      this.$emit("deconnection", { name: "" });
     },
     verification(index) {
       let name = document.getElementById("theName").value;
@@ -82,7 +87,8 @@ export default {
 </script>
 
 <style>
-#login form {
+#login form,
+#logout {
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -102,5 +108,10 @@ export default {
   height: 100vh;
   width: 100%;
   /* background-color: rgba(0, 0, 0, 0.6); */
+}
+
+#logout button {
+  width: 50%;
+  margin: auto;
 }
 </style>

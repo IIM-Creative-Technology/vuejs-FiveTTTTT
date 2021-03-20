@@ -1,25 +1,24 @@
 <template>
   <header>
     <div id="nav">
-      <router-link to="/Admin" v-if="theUser.name!=''">Gérer le blog<span> | </span> </router-link> 
+      <router-link to="/Admin" v-if="theUser.name != ''"
+        >Gérer le blog<span> | </span>
+      </router-link>
       <router-link to="/">Blog</router-link> |
       <router-link to="/login">Connexion</router-link>
       <!-- <router-link to="/login">Login</router-link> -->
-
     </div>
     <div v-if="theUser.name != ''">Bonjour, {{ theUser.name }}</div>
   </header>
-  <!-- <Login v-if="theUser.name!=''" /> -->
   <router-view
     @editBlog="changeArticle"
     @createArticle="addArticle"
-    @connection="connection"
+    @deconnection="deconnection"
     @sendNewUser="changeUser"
     v-bind:blogs="blogs"
     v-bind:isConnected="isConnected"
     v-bind:theUser="theUser"
   />
-  <!-- <Admin @remover="removeBlog" v-bind:blogs="blogs" /> -->
 </template>
 
 
@@ -28,7 +27,6 @@
 // import Login from "./components/Login.vue";
 
 export default {
-  
   name: "App",
   data() {
     return {
@@ -84,8 +82,15 @@ export default {
     // Login,
   },
   methods: {
-    connection(payload) {
-      this.isConnected = payload.name;
+    // connection(payload) {
+    //   this.isConnected = payload.name;
+    //   // console.log("co");
+    //   // console.log("co " + payload.name);
+    // },
+    deconnection(payload) {
+      this.name = payload.name;
+      // this.isConnected = payload.name;
+      this.theUser.name = this.name;
       // console.log("co");
       // console.log("co " + payload.name);
     },
@@ -171,7 +176,7 @@ body {
   color: #2c3e50;
 }
 
-#nav a span{
+#nav a span {
   text-decoration: none;
   color: white;
 }
