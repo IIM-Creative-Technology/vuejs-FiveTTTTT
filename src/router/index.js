@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 // import Home from '../views/Home.vue'
 import Admin from '../components/Admin.vue'
 import Blog from '../components/Blog.vue'
-import TheBlog from '../components/Blog.vue'
+import TheBlog from '../components/Admin.vue'
 import Login from '../components/Login.vue'
 
 const routes = [
@@ -22,7 +22,7 @@ const routes = [
     component: Blog
   },
   {
-    path: '/blog:titre-du-post”',
+    path: '/blog/:titre-du-post',
     name: 'TheBlog',
     component: TheBlog
   },

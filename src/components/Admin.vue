@@ -1,29 +1,40 @@
 <template>
-  <div id="myAdmin">
-    <ul id="myBlogs">
-      <li v-for="(blog, index) in blogs" :key="(blog, index)">
-        <div v-bind:id="'nouvBlog' + index" class="nouvBlog">
-          <img
-            src="./../assets/logo.png"
-            alt=""
-            style="width: 20px; height: 20px"
-          />
-          <p>{{ blog.title }}</p>
-          <div class="blogsActions">
-            <button v-on:click="openEdit(index)">Editer</button>
+  <div id="Admin">
+    <button v-on:click="openCreate">Créer un article</button>
+    <div id="myAdmin">
+      <ul id="myBlogs">
+        <li v-for="(blog, index) in blogs" :key="(blog, index)">
+          <div v-bind:id="'nouvBlog' + index" class="nouvBlog">
             <img
-              src="./../assets/trash.png"
+              src="./../assets/logo.png"
               alt=""
               style="width: 20px; height: 20px"
-              v-on:click="removeBlog(index)"
             />
+            <p>{{ blog.title }}</p>
+            <div class="blogsActions">
+              <button v-on:click="openEdit(index)">Editer</button>
+              <img
+                src="./../assets/trash.png"
+                alt=""
+                style="width: 20px; height: 20px"
+                v-on:click="removeBlog(index)"
+              />
+            </div>
           </div>
-        </div>
-        <br />
-      </li>
-    </ul>
-    <EditBlog @sendEdit="editBlog" v-bind:index="selectedBlog" />
-    <!-- <EditBlog @sendEdit="editBlog" /> -->
+          <br />
+        </li>
+      </ul>
+      <!-- <ul id="myBlogs" v-else>
+        <p>Aucun artticle n'a été créé</p>
+      </ul> -->
+      <EditBlog
+        @sendEdit="editBlog"
+        @sendCreation="createArticle"
+        v-bind:index="selectedBlog"
+        v-bind:create="create"
+      />
+      <!-- <EditBlog @sendEdit="editBlog" /> -->
+    </div>
   </div>
 </template>
 
@@ -33,25 +44,65 @@ export default {
   components: {
     EditBlog,
   },
-  props: ["blogs"],
+  props: ["blogs","theUser"],
   name: "Admin",
   data() {
     return {
       selectedBlog: 0,
+      create: true,
     };
   },
   computed: {},
   methods: {
-    editBlog(payload) {
+    createArticle(payload) {
+      // console.log("wsh");
       this.thecontent = payload.content;
       let theContent = this.thecontent;
-      //   this.thetitle = payload.title;
+
+      this.theTitle = payload.title;
+      let theTitle = this.theTitle;
+      
+      this.theDate = payload.date;
+      let theDate = this.theDate;
+
       this.theMetaTitle = payload.metaTitle;
       let theMetaTitle = payload.metaTitle;
+
       this.theMetaDescription = payload.metaDescription;
       let theMetaDescription = payload.metaDescription;
+
+      let newArticle = {
+        theImages: 1,
+        content: theContent,
+        title: theTitle,
+        metaTitle: theMetaTitle,
+        metaDescription: theMetaDescription,
+        date: theDate,
+        user: this.theUser.name,
+      };
+
+      this.$emit("createArticle", {
+        article: newArticle,
+      });
+    },
+
+    editBlog(payload) {
+      // console.log("edit");
+      this.thecontent = payload.content;
+      let theContent = this.thecontent;
+
+      this.user = payload.user;
+      let user = this.user;
+
+      this.theMetaTitle = payload.metaTitle;
+      let theMetaTitle = payload.metaTitle;
+
+      this.theMetaDescription = payload.metaDescription;
+      let theMetaDescription = payload.metaDescription;
+
       this.$emit("editBlog", {
         article: this.selectedBlog,
+        user: user,
         content: theContent,
         metaTitle: theMetaTitle,
         metaDescription: theMetaDescription,
@@ -61,7 +112,6 @@ export default {
       //   this.blogs[this.selectedBlog].metaTitle = this.theMetaTitle;
       //   this.blogs[this.selectedBlog].metaDescription = this.theMetaDescription;
       //   this.blogs[this.selectedBlog].content = this.thecontent;
-      //   console.log("wsh");
     },
     removeBlog(index) {
       let editBlog = document.getElementById("editBlog");
@@ -85,12 +135,48 @@ export default {
         }
       }
     },
-    openEdit(index) {
-      this.selectedBlog = index;
-      let nouvBlog = document.getElementById("nouvBlog" + index);
+    open() {
       let myAdmin = document.getElementById("myAdmin");
       let myBlogs = document.getElementById("myBlogs");
       let editBlog = document.getElementById("editBlog");
+
+      // nouvBlog.style.backgroundColor = " rgb(121, 121, 121)";
+
+      myBlogs.style.width = "40%";
+      myAdmin.style.display = "flex";
+      myAdmin.style.justifyContent = "space-around";
+      editBlog.style.display = "block";
+      editBlog.style.width = "55%";
+    },
+    openCreate() {
+      this.open();
+      this.create = true;
+
+      let blogContent = document.getElementById("blogContent");
+      let blogTitle = document.getElementById("blogTitle");
+      let blogMTitle = document.getElementById("blogMTitle");
+      let blogMDescription = document.getElementById("blogMDescription");
+      // let blogTitle = document.getElementById("blogTitle");
+
+      blogTitle.innerHTML = "";
+      blogMTitle.value = "";
+      blogMDescription.value = "";
+      blogContent.value = "";
+
+      blogTitle.style.display = "none";
+
+      let blogTitleArea = document.getElementById("blogTitleArea");
+      blogTitleArea.style.display = "block";
+    },
+    openEdit(index) {
+      // open();
+      this.open();
+      this.create = false;
+      this.selectedBlog = index;
+      let nouvBlog = document.getElementById("nouvBlog" + index);
+      // let myAdmin = document.getElementById("myAdmin");
+      // let myBlogs = document.getElementById("myBlogs");
+      // let editBlog = document.getElementById("editBlog");
       let blogContent = document.getElementById("blogContent");
       let blogTitle = document.getElementById("blogTitle");
       let blogMTitle = document.getElementById("blogMTitle");
@@ -98,11 +184,15 @@ export default {
 
       nouvBlog.style.backgroundColor = " rgb(121, 121, 121)";
 
-      myBlogs.style.width = "40%";
-      myAdmin.style.display = "flex";
-      myAdmin.style.justifyContent = "space-around";
-      editBlog.style.display = "block";
-      editBlog.style.width = "55%";
+      // myBlogs.style.width = "40%";
+      // myAdmin.style.display = "flex";
+      // myAdmin.style.justifyContent = "space-around";
+      // editBlog.style.display = "block";
+      // editBlog.style.width = "55%";
+      let blogTitleArea = document.getElementById("blogTitleArea");
+      blogTitleArea.style.display = "none";
+
+      blogTitle.style.display = "block";
       blogTitle.innerHTML = this.blogs[index].title;
       blogMTitle.value = this.blogs[index].metaTitle;
       blogMDescription.value = this.blogs[index].metaDescription;

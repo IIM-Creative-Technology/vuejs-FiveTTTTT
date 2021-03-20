@@ -1,77 +1,126 @@
 <template>
-  <Login @connection="connecting" v-if="!isConnected" />
-  <div id="nav">
-    <router-link to="/Admin">Gérer le blog</router-link> |
-    <router-link to="/blog">Blog</router-link>
-    <!-- <router-link to="/login">Login</router-link> -->
-  </div>
-  <router-view @editBlog="changeArticle" v-bind:blogs="blogs" />
+  <!-- <Login @connection="connecting" v-if="!isConnected" /> -->
+  <header>
+    <div id="nav">
+      <router-link to="/Admin">Gérer le blog</router-link> |
+      <router-link to="/blog">Blog</router-link> |
+      <router-link to="/login">Login</router-link>
+    </div>
+    <div v-if="theUser.name != 'admin'">Bonjour, {{ theUser.name }}</div>
+  </header>
+  <router-view
+    @editBlog="changeArticle"
+    @createArticle="addArticle"
+    @connection="connection"
+    @sendNewUser="changeUser"
+    v-bind:blogs="blogs"
+    v-bind:isConnected="isConnected"
+    v-bind:theUser="theUser"
+  />
   <!-- <Admin @remover="removeBlog" v-bind:blogs="blogs" /> -->
 </template>
 
 
 <script lang="ts">
 // import Admin from "./components/Admin.vue";
-import Login from "./components/Login.vue";
+// import Login from "./components/Login.vue";
 
 export default {
   name: "App",
   data() {
     return {
-      isConnected: true,
+      isConnected: false,
+      theUser: {
+        name: "admin",
+        email: "admin@admin.fr",
+        password: "1234",
+      },
+
       blogs: [
         {
           theImages: 1,
-          content: "lorem",
-          title: "mon premier blog",
+          content: "Cet article a été créer pour que vous le modifiez",
+          title: "mon blog test",
           metaTitle: "mon_premier_blog",
           metaDescription: "ouais",
-          date: 17032021,
-          user: "moi",
-
-        },
-        {
-          theImages: 2,
-          content: "ipsum",
-          title: "mon deuxieme blog",
-          metaTitle: "mon_deuxieme_blog",
-          metaDescription: "ouais",
-          date: 17032021,
+          date: "17/03/2021",
           user: "moi",
         },
-        {
-          theImages: 3,
-          content: "sincuae",
-          title: "mon troisieme blog",
-          metaTitle: "mon_troisieme_blog",
-          metaDescription: "ouais",
-          date: 17032021,
-          user: "moi",
-        },
-        {
-          theImages: 4,
-          content: "premium",
-          title: "mon quatrieme blog",
-          metaTitle: "mon_quatrieme_blog",
-          metaDescription: "ouais",
-          date: 17032021,
-          user: "moi",
-        },
+        // {
+        //   theImages: 2,
+        //   content: "ipsum",
+        //   title: "mon deuxieme blog",
+        //   metaTitle: "mon_deuxieme_blog",
+        //   metaDescription: "ouais",
+        //   date: 17032021,
+        //   user: "moi",
+        // },
+        // {
+        //   theImages: 3,
+        //   content: "sincuae",
+        //   title: "mon troisieme blog",
+        //   metaTitle: "mon_troisieme_blog",
+        //   metaDescription: "ouais",
+        //   date: 17032021,
+        //   user: "moi",
+        // },
+        // {
+        //   theImages: 4,
+        //   content: "premium",
+        //   title: "mon quatrieme blog",
+        //   metaTitle: "mon_quatrieme_blog",
+        //   metaDescription: "ouais",
+        //   date: 17032021,
+        //   user: "moi",
+        // },
       ],
     };
   },
   components: {
     // Admin,
-    Login,
+    // Login,
   },
   methods: {
+    connection(payload) {
+      this.isConnected = payload.name;
+      // console.log("co");
+      // console.log("co " + payload.name);
+    },
+    changeUser(payload) {
+      // console.log("cos");
+
+      this.name = payload.name;
+      this.email = payload.email;
+      this.password = payload.password;
+      let newName = this.name;
+      let newEmail = this.email;
+      let newPass = this.password;
+      // console.log("nameNew : " + newName);
+      // console.log("emailNew : " + newEmail);
+      // console.log("passwordNew : " + newPass);
+
+      this.theUser.name = newName;
+
+      this.theUser.email = newEmail;
+
+      this.theUser.password = newPass;
+    },
+    addArticle(payload) {
+      let theBlog = this.blogs;
+      theBlog.push(payload.article);
+      // console.log("wsh ca marche");
+      // let newLi = document.getElementById("");
+    },
     changeArticle(payload) {
       this.thecontent = payload.content;
       this.theMetaTitle = payload.metaTitle;
       this.theMetaDescription = payload.metaDescription;
+      this.user = payload.user;
+
       this.blogs[payload.article].metaTitle = this.theMetaTitle;
       this.blogs[payload.article].metaDescription = this.theMetaDescription;
       this.blogs[payload.article].content = this.thecontent;
+      this.blogs[payload.article].user = this.user;
     },
     // removeBlog(payload) {
     //   this.removerId = payload.removerId;
@@ -124,9 +173,17 @@ body {
 }
 
 .nouvBlog h3 {
-    overflow: hidden;
-    text-decoration: underline;
-    height: 4vh;
-    width: 50%;
+  overflow: hidden;
+  text-decoration: underline;
+  height: 4vh;
+  width: 50%;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+header div {
+  padding: 30px;
 }
 </style>

@@ -8,7 +8,9 @@
             alt=""
             style="width: 20px; height: 20px"
           />
+          <!-- <router-link to="'/blog:'.index"></router-link> -->
           <div v-on:click="showArticle(index)">
+            <!-- <div> -->
             <h3>{{ blog.title }}</h3>
             <p>{{ blog.metaDescription }}</p>
           </div>
@@ -30,15 +32,15 @@
         alt=""
         style="width: 200px; height: 200px"
       />
-      <h1 id="theArticleTitle"></h1>
+      <h2 id="theArticleTitle"></h2>
       <p id="theArticleContent"></p>
-      <div>
+      <div id="extraInfos">
         <p id="theArticleDate"></p>
-        <div>
+        <div id="signature">
           <img
             src="./../assets/logo.png"
             alt=""
-            style="width: 20px; height: 20px"
+            style="width: 30px; height: 30px"
           />
           <p id="theArticleUser"></p>
         </div>
@@ -72,7 +74,7 @@ export default {
 
       title.innerHTML = this.blogs[index].title;
       content.innerHTML = this.blogs[index].content;
-      date.innerHTML = this.blogs[index].date;
+      date.innerHTML = "Dernieres modifications : "+this.blogs[index].date;
       user.innerHTML = this.blogs[index].user;
 
       menu.style.display = "none";
@@ -83,6 +85,16 @@ export default {
 </script>
 
 <style>
+#extraInfos {
+  display: flex;
+  justify-content: space-between;
+  padding: 60px;
+}
+#signature {
+  display: flex;
+  /* justify-content: right;
+  align-content: flex-end; */
+}
 #blog #myBlogs .nouvBlog {
   height: 10vh;
   margin-bottom: 15px;
