@@ -2,7 +2,7 @@
   <div id="login">
     <form action="">
       <p>Nom</p>
-      <input type="text" id="theName" />
+      <input type="text" id="theName" required/>
       <br />
 
       <p>Email</p>

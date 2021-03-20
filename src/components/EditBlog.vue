@@ -16,7 +16,6 @@
             <div id="blogTitleArea" style="display: none">
               <p>Titre de l'article</p>
               <textarea
-                name=""
                 cols="30"
                 rows="1"
                 id="blogTitleInput"
@@ -69,18 +68,22 @@
           required
         ></textarea>
       </div>
-      <input
-        type="submit"
-        value="Valider la creation"
-        v-if="create"
-        v-on:click="sendCreation"
-      />
-      <input
-        type="submit"
-        value="Valider les modifications"
-        v-else
-        v-on:click="sendEdit"
-      />
+      <div v-if="create">
+        <input
+          type="submit"
+          value="Valider la creation"
+          v-on:click="sendCreation"
+          required
+        />
+      </div>
+      <div v-else>
+        <input
+          type="submit"
+          value="Valider les modifications"
+          v-on:click="sendEdit"
+          required
+        />
+      </div>
       <!-- v-on:click="sendEdit" -->
     </form>
   </div>
@@ -99,57 +102,53 @@ export default {
     newTime() {
       var date = new Date();
       let newDate =
-        date.getDate() +
-        "/" +
-        (date.getMonth() + 1) +
-        "/" +
-        date.getFullYear();
+        date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
       return newDate;
     },
     sendCreation() {
-      this.closeEdit();
-      this.newTime();
       let blogContent = document.getElementById("blogContent").value;
-      // console.log("blogContent "+blogContent);
       let blogTitle = document.getElementById("blogTitleInput").value;
-      // console.log("blogTitle "+blogTitle);
       let blogMTitle = document.getElementById("blogMTitle").value;
       let blogMDescription = document.getElementById("blogMDescription").value;
+      if (
+        blogContent != "" ||
+        blogTitle != "" ||
+        blogMTitle != "" ||
+        blogMDescription != ""
+      ) {
+        this.newTime();
+        this.closeEdit();
 
-      this.$emit("sendCreation", {
-        content: blogContent,
-        title: blogTitle,
-        metaTitle: blogMTitle,
-        metaDescription: blogMDescription,
-        user: this.theUser,
-        date:this.newTime(),
-      });
+        this.$emit("sendCreation", {
+          content: blogContent,
+          title: blogTitle,
+          metaTitle: blogMTitle,
+          metaDescription: blogMDescription,
+          user: this.theUser,
+          date: this.newTime(),
+        });
+      }
     },
     sendEdit() {
-      this.closeEdit();
-
-      // console.log(this.theUser);
-
       let blogContent = document.getElementById("blogContent").value;
-      // let blogTitle = document.getElementById("blogTitle").value;
       let blogMTitle = document.getElementById("blogMTitle").value;
       let blogMDescription = document.getElementById("blogMDescription").value;
 
-      // console.log("no");
-
-      this.$emit("sendEdit", {
-        content: blogContent,
-        metaTitle: blogMTitle,
-        metaDescription: blogMDescription,
-        user: this.theUser,
-      });
+      if (blogContent != "" && blogMTitle != "" && blogMDescription != "") {
+        this.closeEdit();
+        this.$emit("sendEdit", {
+          content: blogContent,
+          metaTitle: blogMTitle,
+          metaDescription: blogMDescription,
+          user: this.theUser,
+        });
+      }
     },
     closeEdit() {
       let myBlogs = document.getElementById("myBlogs");
       myBlogs.style.width = "100%";
       let editBlog = document.getElementById("editBlog");
       editBlog.style.display = "none";
-      // console.log("l'id " + this.index);
 
       let unselectBlog = document.getElementById("nouvBlog" + this.index);
       unselectBlog.style.backgroundColor = "rgb(75, 75, 75)";
