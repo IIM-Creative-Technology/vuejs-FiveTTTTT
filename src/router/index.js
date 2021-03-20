@@ -1,30 +1,29 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-// import Home from '../views/Home.vue'
+import Home from '../views/Home.vue'
 import Admin from '../components/Admin.vue'
 import Blog from '../components/Blog.vue'
-import TheBlog from '../components/Admin.vue'
 import Login from '../components/Login.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
   {
     path: '/admin',
     name: 'Admin',
     component: Admin
   },
   {
-    path: '/',
+    path: '/Blog',
     name: 'Blog',
     component: Blog
   },
   {
-    path: '/blog/:titre-du-post',
-    name: 'TheBlog',
-    component: TheBlog
+    path: '/Blog/:titre-du-post',
+    name: 'Blog',
+    component: Blog
   },
   {
     path: '/login',

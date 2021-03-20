@@ -5,7 +5,6 @@
       <div id="metaInfos">
         <div id="baseInfos">
           <div class="baseMetas">
-            <!-- <p>Titre du blog</p> -->
             <h2
               name=""
               cols="30"
@@ -22,8 +21,6 @@
                 required
               ></textarea>
             </div>
-
-            <!-- <p style="display: none; color: red">Titre du blog</p> -->
           </div>
           <br />
           <div class="baseMetas">
@@ -84,7 +81,6 @@
           required
         />
       </div>
-      <!-- v-on:click="sendEdit" -->
     </form>
   </div>
 </template>
@@ -92,11 +88,6 @@
 <script>
 export default {
   props: ["index", "create", "theUser"],
-  // data() {
-  //   return {
-  //     create: true,
-  //   };
-  // },
 
   methods: {
     isConnected() {
@@ -104,10 +95,8 @@ export default {
         alert(
           "Vous ne pouvez pas effectuer cette action car vous n'êtes pas connecté. Veuillez  vous connecter pour continuer."
         );
-        console.log("isntco");
         return false;
       } else {
-        console.log("isco");
         return true;
       }
     },
@@ -125,9 +114,9 @@ export default {
         let blogMDescription = document.getElementById("blogMDescription")
           .value;
         if (
-          blogContent != "" ||
-          blogTitle != "" ||
-          blogMTitle != "" ||
+          blogContent != "" &&
+          blogTitle != "" &&
+          blogMTitle != "" &&
           blogMDescription != ""
         ) {
           this.newTime();
@@ -197,10 +186,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-/* #baseInfos .baseMetas {
-  display: flex;
-} */
-#imgBlog {
 }
 </style>

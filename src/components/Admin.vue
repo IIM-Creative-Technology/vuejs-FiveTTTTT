@@ -1,6 +1,9 @@
 <template>
-  <div v-if="theUser.name==''">
-    <Login v-bind:theUser="theUser" />
+  <div v-if="theUser.name == ''">
+    <h3>
+      Vous n'avez pas accès à cette page. Veuillez allez vous connecter :
+      <router-link to="/login" style="color: #42b983">Connexion</router-link>
+    </h3>
   </div>
   <div id="Admin" v-else>
     <button v-on:click="openCreate">Créer un article</button>
@@ -40,14 +43,12 @@
 
 <script>
 import EditBlog from "./EditBlog.vue";
-import Login from "./../components/Login";
-// import Blog from "./../components/Blog";
+// import Login from "./../components/Login";
 
 export default {
   components: {
     EditBlog,
-    // Blog,
-    Login,
+    // Login,
   },
   props: ["blogs", "theUser"],
   name: "Admin",
@@ -64,15 +65,12 @@ export default {
         alert(
           "Vous ne pouvez pas effectuer cette action car vous n'êtes pas connecté. Veuillez  vous connecter pour continuer."
         );
-        console.log("isntco");
         return false;
       } else {
-        console.log("isco");
         return true;
       }
     },
     createArticle(payload) {
-      // console.log("wsh");
       this.thecontent = payload.content;
       let theContent = this.thecontent;
 
@@ -89,7 +87,6 @@ export default {
       let theMetaDescription = payload.metaDescription;
 
       let newArticle = {
-        theImages: 1,
         content: theContent,
         title: theTitle,
         metaTitle: theMetaTitle,
@@ -103,7 +100,6 @@ export default {
       });
     },
     editBlog(payload) {
-      // console.log("edit");
       this.thecontent = payload.content;
       let theContent = this.thecontent;
 
@@ -123,11 +119,6 @@ export default {
         metaTitle: theMetaTitle,
         metaDescription: theMetaDescription,
       });
-      //   this.blogs[this.selectedBlog].title = this.thetitle;
-      // this.blogs[this.selectedBlog].metaTitle=this.theMetaTitle;
-      //   this.blogs[this.selectedBlog].metaTitle = this.theMetaTitle;
-      //   this.blogs[this.selectedBlog].metaDescription = this.theMetaDescription;
-      //   this.blogs[this.selectedBlog].content = this.thecontent;
     },
     removeBlog(index) {
       if (this.isConnected()) {
@@ -158,8 +149,6 @@ export default {
       let myBlogs = document.getElementById("myBlogs");
       let editBlog = document.getElementById("editBlog");
 
-      // nouvBlog.style.backgroundColor = " rgb(121, 121, 121)";
-
       myBlogs.style.width = "40%";
       myAdmin.style.display = "flex";
       myAdmin.style.justifyContent = "space-around";
@@ -175,7 +164,6 @@ export default {
         let blogTitle = document.getElementById("blogTitle");
         let blogMTitle = document.getElementById("blogMTitle");
         let blogMDescription = document.getElementById("blogMDescription");
-        // let blogTitle = document.getElementById("blogTitle");
 
         blogTitle.innerHTML = "";
         blogMTitle.value = "";
@@ -190,14 +178,10 @@ export default {
     },
     openEdit(index) {
       if (this.isConnected()) {
-        // open();
         this.open();
         this.create = false;
         this.selectedBlog = index;
         let nouvBlog = document.getElementById("nouvBlog" + index);
-        // let myAdmin = document.getElementById("myAdmin");
-        // let myBlogs = document.getElementById("myBlogs");
-        // let editBlog = document.getElementById("editBlog");
         let blogContent = document.getElementById("blogContent");
         let blogTitle = document.getElementById("blogTitle");
         let blogMTitle = document.getElementById("blogMTitle");
@@ -205,11 +189,6 @@ export default {
 
         nouvBlog.style.backgroundColor = " rgb(121, 121, 121)";
 
-        // myBlogs.style.width = "40%";
-        // myAdmin.style.display = "flex";
-        // myAdmin.style.justifyContent = "space-around";
-        // editBlog.style.display = "block";
-        // editBlog.style.width = "55%";
         let blogTitleArea = document.getElementById("blogTitleArea");
         blogTitleArea.style.display = "none";
 
@@ -229,8 +208,6 @@ export default {
 </script>
 
 <style>
-#myAdmin {
-}
 ul {
   list-style: none;
 }

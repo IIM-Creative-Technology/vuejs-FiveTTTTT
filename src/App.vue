@@ -4,121 +4,74 @@
       <router-link to="/Admin" v-if="theUser.name != ''"
         >Gérer le blog<span> | </span>
       </router-link>
-      <router-link to="/">Blog</router-link> |
+      <router-link to="/Blog">Blog</router-link> |
       <router-link to="/login">Connexion</router-link>
-      <!-- <router-link to="/login">Login</router-link> -->
     </div>
+    <!-- seulement si on est connecte, on va etre salué -->
     <div v-if="theUser.name != ''">Bonjour, {{ theUser.name }}</div>
   </header>
+
+  <!-- on va echanger (recevoir(v-on) et envoyer(v-bind)) des actions ou des variables avec les composants en utilisant router-view -->
   <router-view
     @editBlog="changeArticle"
     @createArticle="addArticle"
     @deconnection="deconnection"
     @sendNewUser="changeUser"
     v-bind:blogs="blogs"
-    v-bind:isConnected="isConnected"
     v-bind:theUser="theUser"
   />
 </template>
 
 
 <script lang="ts">
-// import Admin from "./components/Admin.vue";
-// import Login from "./components/Login.vue";
-
 export default {
   name: "App",
   data() {
     return {
-      isConnected: false,
       theUser: {
         name: "",
-        email: "admin@admin.fr",
-        password: "1234",
+        email: "",
+        password: "",
       },
 
+      // comme je n'arrivai pas à ajouter un element à une liste vide j'ai du creer un de base
       blogs: [
         {
-          theImages: 1,
           content: "Cet article a été créer pour que vous le modifiez",
           title: "mon blog test",
           metaTitle: "mon_premier_blog",
           metaDescription: "ouais",
           date: "17/03/2021",
-          user: "moi",
+          user: "test",
         },
-        // {
-        //   theImages: 2,
-        //   content: "ipsum",
-        //   title: "mon deuxieme blog",
-        //   metaTitle: "mon_deuxieme_blog",
-        //   metaDescription: "ouais",
-        //   date: 17032021,
-        //   user: "moi",
-        // },
-        // {
-        //   theImages: 3,
-        //   content: "sincuae",
-        //   title: "mon troisieme blog",
-        //   metaTitle: "mon_troisieme_blog",
-        //   metaDescription: "ouais",
-        //   date: 17032021,
-        //   user: "moi",
-        // },
-        // {
-        //   theImages: 4,
-        //   content: "premium",
-        //   title: "mon quatrieme blog",
-        //   metaTitle: "mon_quatrieme_blog",
-        //   metaDescription: "ouais",
-        //   date: 17032021,
-        //   user: "moi",
-        // },
       ],
     };
   },
-  components: {
-    // Admin,
-    // Login,
-  },
   methods: {
-    // connection(payload) {
-    //   this.isConnected = payload.name;
-    //   // console.log("co");
-    //   // console.log("co " + payload.name);
-    // },
     deconnection(payload) {
       this.name = payload.name;
-      // this.isConnected = payload.name;
       this.theUser.name = this.name;
-      // console.log("co");
-      // console.log("co " + payload.name);
     },
-    changeUser(payload) {
-      // console.log("cos");
 
+    changeUser(payload) {
       this.name = payload.name;
       this.email = payload.email;
       this.password = payload.password;
+
       let newName = this.name;
       let newEmail = this.email;
       let newPass = this.password;
-      // console.log("nameNew : " + newName);
-      // console.log("emailNew : " + newEmail);
-      // console.log("passwordNew : " + newPass);
 
       this.theUser.name = newName;
-
       this.theUser.email = newEmail;
-
       this.theUser.password = newPass;
     },
+
     addArticle(payload) {
       let theBlog = this.blogs;
       theBlog.push(payload.article);
-      // console.log("wsh ca marche");
-      // let newLi = document.getElementById("");
     },
+    
     changeArticle(payload) {
       this.thecontent = payload.content;
       this.theMetaTitle = payload.metaTitle;
@@ -129,17 +82,6 @@ export default {
       this.blogs[payload.article].metaDescription = this.theMetaDescription;
       this.blogs[payload.article].content = this.thecontent;
       this.blogs[payload.article].user = this.user;
-    },
-    // removeBlog(payload) {
-    //   this.removerId = payload.removerId;
-    //   let idCheck = this.removerId;
-    //   let removeThisBlog = this.blogs;
-    //   removeThisBlog.splice(idCheck, 1);
-    // },
-    connecting(payload) {
-      this.isConnected = payload.isConnected;
-      let popUpCo = document.getElementById("login");
-      popUpCo.style.display = "none";
     },
   },
 };

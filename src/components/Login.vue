@@ -38,44 +38,24 @@
 
 <script>
 export default {
-  props: ["isConnected", "theUser"],
+  props: ["theUser"],
   methods: {
     deconection() {
       this.$emit("deconnection", { name: "" });
     },
-    verification(index) {
+    verification() {
       let name = document.getElementById("theName").value;
       let email = document.getElementById("theEmail").value;
       let password = document.getElementById("thePass").value;
       let passVerif = document.getElementById("passVerif").value;
 
-      // console.log("aya " + passVerif);
-      // console.log("name: " + name);
-      // console.log("email: " + email);
-      // console.log("password: " + password);
-
       if (password != passVerif && password != "" && passVerif != "") {
         document.getElementById("wrongPass").style.display = "block";
       } else {
-        this.connection(index);
         this.sendNewUser(name, email, password);
       }
     },
-    connection(index) {
-      this.$emit("connection", { isConnected: index });
-
-      // if (
-      //   document.getElementById("pass") == document.getElementById("passVerif")
-      // ) {
-      //   this.$emit("connection", { isConnected: index });
-      // } else {
-      //   document.getElementById("wrongPass").style.display = "block";
-      // }
-    },
     sendNewUser(name, email, password) {
-      // console.log("name: " + name);
-      // console.log("email: " + email);
-      // console.log("password: " + password);
       this.$emit("sendNewUser", {
         name: name,
         email: email,
@@ -93,7 +73,6 @@ export default {
   flex-direction: column;
   width: 50%;
   margin: auto;
-  /* margin-top: 20vh; */
   border-radius: 10px;
   padding: 20px;
   background-color: rgb(114, 114, 114);
@@ -107,7 +86,6 @@ export default {
   position: absolute;
   height: 100vh;
   width: 100%;
-  /* background-color: rgba(0, 0, 0, 0.6); */
 }
 
 #logout button {
