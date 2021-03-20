@@ -99,6 +99,18 @@ export default {
   // },
 
   methods: {
+    isConnected() {
+      if (this.theUser.name == "") {
+        alert(
+          "Vous ne pouvez pas effectuer cette action car vous n'êtes pas connecté. Veuillez  vous connecter pour continuer."
+        );
+        console.log("isntco");
+        return false;
+      } else {
+        console.log("isco");
+        return true;
+      }
+    },
     newTime() {
       var date = new Date();
       let newDate =
@@ -106,42 +118,48 @@ export default {
       return newDate;
     },
     sendCreation() {
-      let blogContent = document.getElementById("blogContent").value;
-      let blogTitle = document.getElementById("blogTitleInput").value;
-      let blogMTitle = document.getElementById("blogMTitle").value;
-      let blogMDescription = document.getElementById("blogMDescription").value;
-      if (
-        blogContent != "" ||
-        blogTitle != "" ||
-        blogMTitle != "" ||
-        blogMDescription != ""
-      ) {
-        this.newTime();
-        this.closeEdit();
+      if (this.isConnected()) {
+        let blogContent = document.getElementById("blogContent").value;
+        let blogTitle = document.getElementById("blogTitleInput").value;
+        let blogMTitle = document.getElementById("blogMTitle").value;
+        let blogMDescription = document.getElementById("blogMDescription")
+          .value;
+        if (
+          blogContent != "" ||
+          blogTitle != "" ||
+          blogMTitle != "" ||
+          blogMDescription != ""
+        ) {
+          this.newTime();
+          this.closeEdit();
 
-        this.$emit("sendCreation", {
-          content: blogContent,
-          title: blogTitle,
-          metaTitle: blogMTitle,
-          metaDescription: blogMDescription,
-          user: this.theUser,
-          date: this.newTime(),
-        });
+          this.$emit("sendCreation", {
+            content: blogContent,
+            title: blogTitle,
+            metaTitle: blogMTitle,
+            metaDescription: blogMDescription,
+            user: this.theUser,
+            date: this.newTime(),
+          });
+        }
       }
     },
     sendEdit() {
-      let blogContent = document.getElementById("blogContent").value;
-      let blogMTitle = document.getElementById("blogMTitle").value;
-      let blogMDescription = document.getElementById("blogMDescription").value;
+      if (this.isConnected()) {
+        let blogContent = document.getElementById("blogContent").value;
+        let blogMTitle = document.getElementById("blogMTitle").value;
+        let blogMDescription = document.getElementById("blogMDescription")
+          .value;
 
-      if (blogContent != "" && blogMTitle != "" && blogMDescription != "") {
-        this.closeEdit();
-        this.$emit("sendEdit", {
-          content: blogContent,
-          metaTitle: blogMTitle,
-          metaDescription: blogMDescription,
-          user: this.theUser,
-        });
+        if (blogContent != "" && blogMTitle != "" && blogMDescription != "") {
+          this.closeEdit();
+          this.$emit("sendEdit", {
+            content: blogContent,
+            metaTitle: blogMTitle,
+            metaDescription: blogMDescription,
+            user: this.theUser,
+          });
+        }
       }
     },
     closeEdit() {

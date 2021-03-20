@@ -1,13 +1,15 @@
 <template>
-  <!-- <Login @connection="connecting" v-if="!isConnected" /> -->
   <header>
     <div id="nav">
-      <router-link to="/Admin">Gérer le blog</router-link> |
-      <router-link to="/blog">Blog</router-link> |
-      <router-link to="/login">Login</router-link>
+      <router-link to="/Admin" v-if="theUser.name!=''">Gérer le blog<span> | </span> </router-link> 
+      <router-link to="/">Blog</router-link> |
+      <router-link to="/login">Connexion</router-link>
+      <!-- <router-link to="/login">Login</router-link> -->
+
     </div>
-    <div v-if="theUser.name != 'admin'">Bonjour, {{ theUser.name }}</div>
+    <div v-if="theUser.name != ''">Bonjour, {{ theUser.name }}</div>
   </header>
+  <!-- <Login v-if="theUser.name!=''" /> -->
   <router-view
     @editBlog="changeArticle"
     @createArticle="addArticle"
@@ -26,12 +28,13 @@
 // import Login from "./components/Login.vue";
 
 export default {
+  
   name: "App",
   data() {
     return {
       isConnected: false,
       theUser: {
-        name: "admin",
+        name: "",
         email: "admin@admin.fr",
         password: "1234",
       },
@@ -166,6 +169,11 @@ body {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+}
+
+#nav a span{
+  text-decoration: none;
+  color: white;
 }
 
 #nav a.router-link-exact-active {

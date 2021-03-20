@@ -17,7 +17,7 @@ const routes = [
     component: Admin
   },
   {
-    path: '/blog',
+    path: '/',
     name: 'Blog',
     component: Blog
   },
