@@ -6,7 +6,7 @@
     </h3>
   </div>
   <div id="Admin" v-else>
-    <button v-on:click="openCreate">Créer un article</button>
+    <button v-on:click="openCreate" id="createButton">Créer un article</button>
     <div id="myAdmin">
       <ul id="myBlogs">
         <li v-for="(blog, index) in blogs" :key="(blog, index)">
@@ -16,13 +16,13 @@
               alt=""
               style="width: 20px; height: 20px"
             />
-            <p>{{ blog.title }}</p>
+            <h3>{{ blog.title }}</h3>
             <div class="blogsActions">
-              <button v-on:click="openEdit(index)">Editer</button>
+              <button v-on:click="openEdit(index)" id="editButton">Editer</button>
               <img
                 src="./../assets/trash.png"
                 alt=""
-                style="width: 20px; height: 20px"
+                style="width: 25px; height: 25px"
                 v-on:click="removeBlog(index)"
               />
             </div>
@@ -35,6 +35,7 @@
         @sendCreation="createArticle"
         v-bind:index="selectedBlog"
         v-bind:create="create"
+        v-bind:blogs="blogs"
         v-bind:theUser="theUser"
       />
     </div>
@@ -43,12 +44,10 @@
 
 <script>
 import EditBlog from "./EditBlog.vue";
-// import Login from "./../components/Login";
 
 export default {
   components: {
     EditBlog,
-    // Login,
   },
   props: ["blogs", "theUser"],
   name: "Admin",
@@ -211,6 +210,7 @@ export default {
 ul {
   list-style: none;
 }
+
 .nouvBlog {
   padding: 10px;
   border-radius: 10px;
@@ -221,6 +221,16 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+#createButton {
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+}
+#editButton {
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .nouvBlog .blogsActions {

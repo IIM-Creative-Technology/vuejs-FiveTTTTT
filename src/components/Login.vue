@@ -49,8 +49,10 @@ export default {
       let password = document.getElementById("thePass").value;
       let passVerif = document.getElementById("passVerif").value;
 
-      if (password != passVerif && password != "" && passVerif != "") {
-        document.getElementById("wrongPass").style.display = "block";
+      if (password != passVerif || password == "" || passVerif == "") {
+        if (password != passVerif) {
+          document.getElementById("wrongPass").style.display = "block";
+        }
       } else {
         this.sendNewUser(name, email, password);
       }

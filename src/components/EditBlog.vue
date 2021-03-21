@@ -13,18 +13,21 @@
               style="display: none; color: #fff; text-decoration: underline"
             ></h2>
             <div id="blogTitleArea" style="display: none">
-              <p>Titre de l'article</p>
+              <h4>Titre de l'article :</h4>
               <textarea
                 cols="30"
                 rows="1"
                 id="blogTitleInput"
                 required
               ></textarea>
+              <p id="errorTitle" style="display: none; color: red">
+                Un autre post a déjà ce titre
+              </p>
             </div>
           </div>
           <br />
           <div class="baseMetas">
-            <p>Meta titre</p>
+            <h4>Meta titre :</h4>
             <textarea
               name=""
               cols="30"
@@ -35,7 +38,7 @@
           </div>
           <br />
           <div class="baseMetas">
-            <p>Meta description</p>
+            <h4>Meta description :</h4>
             <textarea
               name=""
               cols="30"
@@ -52,11 +55,11 @@
             style="width: 40px; height: 40px"
             alt=""
           />
-          <p>Modifier l'image</p>
+          <h4>Modifier l'image</h4>
         </div>
       </div>
       <div>
-        <p>Corps du blog</p>
+        <h4>Corps du blog:</h4>
         <textarea
           name=""
           cols="40"
@@ -70,6 +73,7 @@
           type="submit"
           value="Valider la creation"
           v-on:click="sendCreation"
+          class="validate"
           required
         />
       </div>
@@ -78,6 +82,7 @@
           type="submit"
           value="Valider les modifications"
           v-on:click="sendEdit"
+          class="validate"
           required
         />
       </div>
@@ -87,7 +92,7 @@
 
 <script>
 export default {
-  props: ["index", "create", "theUser"],
+  props: ["index", "create", "theUser", "blogs"],
 
   methods: {
     isConnected() {
@@ -106,13 +111,25 @@ export default {
         date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
       return newDate;
     },
+    verifTitle(txt) {
+      let index = 0;
+      let blogLength = this.blogs.length;
+      while (this.blogs[index].title != txt && index < blogLength - 1) {
+        index++;
+      }
+      if (this.blogs[index].title == txt) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     sendCreation() {
-      if (this.isConnected()) {
-        let blogContent = document.getElementById("blogContent").value;
-        let blogTitle = document.getElementById("blogTitleInput").value;
-        let blogMTitle = document.getElementById("blogMTitle").value;
-        let blogMDescription = document.getElementById("blogMDescription")
-          .value;
+      let blogContent = document.getElementById("blogContent").value;
+      let blogTitle = document.getElementById("blogTitleInput").value;
+      let blogMTitle = document.getElementById("blogMTitle").value;
+      let blogMDescription = document.getElementById("blogMDescription").value;
+      if (this.isConnected() && !this.verifTitle(blogTitle)) {
         if (
           blogContent != "" &&
           blogTitle != "" &&
@@ -131,6 +148,9 @@ export default {
             date: this.newTime(),
           });
         }
+      }
+      if (this.verifTitle(blogTitle)) {
+        document.getElementById("errorTitle").style.display = "block";
       }
     },
     sendEdit() {
@@ -165,6 +185,10 @@ export default {
 </script>
 
 <style>
+.validate {
+  border-radius: 10px;
+  padding: 5px;
+}
 #editBlog {
   display: none;
   padding: 10px;
