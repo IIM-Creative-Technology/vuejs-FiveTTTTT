@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       theUser: {
-        name: "a",
+        name: "",
         email: "",
         password: "",
       },
@@ -39,22 +39,6 @@ export default {
         {
           content: "Cet article a été créer pour que vous le modifiez",
           title: "mon blog test",
-          metaTitle: "mon_premier_blog",
-          metaDescription: "ouais",
-          date: "17/03/2021",
-          user: "test",
-        },
-        {
-          content: "Cet article a été créer pour que vous le modifiez",
-          title: "",
-          metaTitle: "mon_premier_blog",
-          metaDescription: "ouais",
-          date: "17/03/2021",
-          user: "test",
-        },
-        {
-          content: "Cet article a été créer pour que vous le modifiez",
-          title: "a",
           metaTitle: "mon_premier_blog",
           metaDescription: "ouais",
           date: "17/03/2021",
