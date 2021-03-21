@@ -1,22 +1,24 @@
 <template>
-  <div id="blog" v-if="isNaN($route.params.titre - du - post)">
-    wsh {{ $route.params.titre - du - post }} wsh
+  <div id="blog">
+    <h1>Tous vos posts</h1>
     <ul id="myBlogs">
       <li v-for="(blog, index) in blogs" :key="(blog, index)">
-        <div v-bind:id="'nouvBlog' + index" class="nouvBlog">
-          <img
-            src="./../assets/logo.png"
-            alt=""
-            style="width: 20px; height: 20px"
-          />
-          <router-link v-bind:to="'/Blog/' + blog.metaTitle"
-            >go to {{ blog.title }}</router-link
-          >
-          <div v-on:click="showArticle(index)">
-            <h3>{{ blog.title }}</h3>
-            <p>{{ blog.metaDescription }}</p>
+        <router-link
+          v-bind:to="'/Blog/' + blog.title"
+          v-on:click="goToPost(index)"
+        >
+          <div v-bind:id="'nouvBlog' + index" class="nouvBlog">
+            <img
+              src="./../assets/logo.png"
+              alt=""
+              style="width: 20px; height: 20px"
+            />
+            <div v-on:click="showArticle(index)">
+              <h3>{{ blog.title }}</h3>
+              <p>{{ blog.metaDescription }}</p>
+            </div>
           </div>
-        </div>
+        </router-link>
       </li>
     </ul>
     <div id="theArticle" style="display: none">
@@ -40,29 +42,10 @@
       </div>
     </div>
     <br />
+    <router-view />
   </div>
-  <div id="blogS" v-if="!isNaN($route.params.titre - du - post)">
-    <div id="post">
-      <img
-        src="./../assets/logo.png"
-        alt=""
-        style="width: 200px; height: 200px"
-      />
-      <h2 id="theArticleTitle"></h2>
-      <p id="theArticleContent"></p>
-      <div id="extraInfos">
-        <p id="theArticleDate"></p>
-        <div id="signature">
-          <img
-            src="./../assets/logo.png"
-            alt=""
-            style="width: 30px; height: 30px"
-          />
-          <p id="theArticleUser"></p>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <!-- </router-view> -->
 </template>
 
 <script>
@@ -70,6 +53,13 @@ export default {
   name: "Blog",
   props: ["blogs"],
   methods: {
+    goToPost(index) {
+      console.log("index " + index);
+
+      this.$emit("goToPost", {
+        index: index,
+      });
+    },
     showArticle(index) {
       let menu = document.getElementById("myBlogs");
       let article = document.getElementById("theArticle");
@@ -89,6 +79,7 @@ export default {
     },
   },
 };
+// this.showArticle(1)
 </script>
 
 <style>
@@ -106,6 +97,10 @@ export default {
 }
 #blog #myBlogs .nouvBlog div {
   width: 65%;
+}
+#myBlogs a{
+  text-decoration: none;
+  color: white;
 }
 #theArticleContent {
   width: 80%;
