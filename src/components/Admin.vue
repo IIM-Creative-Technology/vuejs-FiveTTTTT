@@ -1,4 +1,5 @@
 <template>
+  <!-- si on est pas connecté on n'a pas acces à l'admin -->
   <div v-if="theUser.name == ''">
     <h3>
       Vous n'avez pas accès à cette page. Veuillez allez vous connecter :
@@ -6,6 +7,7 @@
     </h3>
   </div>
   <div id="Admin" v-else>
+    <h1>Gérer le blog</h1>
     <button v-on:click="openCreate" id="createButton">Créer un article</button>
     <div id="myAdmin">
       <ul id="myBlogs">
@@ -18,7 +20,9 @@
             />
             <h3>{{ blog.title }}</h3>
             <div class="blogsActions">
-              <button v-on:click="openEdit(index)" id="editButton">Editer</button>
+              <button v-on:click="openEdit(index)" id="editButton">
+                Editer
+              </button>
               <img
                 src="./../assets/trash.png"
                 alt=""
@@ -30,6 +34,8 @@
           <br />
         </li>
       </ul>
+
+      <!-- on va echanger (recevoir(v-on) et envoyer(v-bind)) des actions ou des variables avec les composants en utilisant router-view -->
       <EditBlog
         @sendEdit="editBlog"
         @sendCreation="createArticle"
@@ -59,6 +65,7 @@ export default {
   },
   computed: {},
   methods: {
+    // verifie que l'on est bien connecter pour effectuer des modifications dans le blog
     isConnected() {
       if (this.theUser.name == "") {
         alert(
@@ -69,6 +76,7 @@ export default {
         return true;
       }
     },
+
     createArticle(payload) {
       this.thecontent = payload.content;
       let theContent = this.thecontent;
@@ -98,6 +106,7 @@ export default {
         article: newArticle,
       });
     },
+
     editBlog(payload) {
       this.thecontent = payload.content;
       let theContent = this.thecontent;
@@ -119,6 +128,7 @@ export default {
         metaDescription: theMetaDescription,
       });
     },
+
     removeBlog(index) {
       if (this.isConnected()) {
         let editBlog = document.getElementById("editBlog");
@@ -135,6 +145,8 @@ export default {
         removeThisBlog.splice(index, 1);
       }
     },
+
+    // quand on edit un article il sera mit en valeur
     unselect(index) {
       for (let i = 0; i < this.blogs.length; i++) {
         if (i != index) {
@@ -143,6 +155,7 @@ export default {
         }
       }
     },
+
     open() {
       let myAdmin = document.getElementById("myAdmin");
       let myBlogs = document.getElementById("myBlogs");
@@ -154,6 +167,7 @@ export default {
       editBlog.style.display = "block";
       editBlog.style.width = "55%";
     },
+
     openCreate() {
       if (this.isConnected()) {
         this.open();
@@ -170,11 +184,9 @@ export default {
         blogContent.value = "";
 
         blogTitle.style.display = "none";
-
-        let blogTitleArea = document.getElementById("blogTitleArea");
-        blogTitleArea.style.display = "block";
       }
     },
+    
     openEdit(index) {
       if (this.isConnected()) {
         this.open();
@@ -187,9 +199,6 @@ export default {
         let blogMDescription = document.getElementById("blogMDescription");
 
         nouvBlog.style.backgroundColor = " rgb(121, 121, 121)";
-
-        let blogTitleArea = document.getElementById("blogTitleArea");
-        blogTitleArea.style.display = "none";
 
         blogTitle.style.display = "block";
         blogTitle.innerHTML = this.blogs[index].title;

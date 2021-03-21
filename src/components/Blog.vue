@@ -2,11 +2,9 @@
   <div id="blog">
     <h1>Tous vos posts</h1>
     <ul id="myBlogs">
+      <!-- on affiche chaque article de blogs -->
       <li v-for="(blog, index) in blogs" :key="(blog, index)">
-        <router-link
-          v-bind:to="'/Blog/' + blog.title"
-          v-on:click="goToPost(index)"
-        >
+        <router-link v-bind:to="'/Blog/' + blog.title">
           <div v-bind:id="'nouvBlog' + index" class="nouvBlog">
             <img
               src="./../assets/logo.png"
@@ -28,17 +26,13 @@
 export default {
   name: "Blog",
   props: ["blogs"],
-  methods: {
-    goToPost(index) {
-      this.$emit("goToPost", {
-        index: index,
-      });
-    },
-  },
 };
 </script>
 
 <style>
+h1 {
+  margin: 10px;
+}
 #extraInfos {
   display: flex;
   justify-content: space-between;

@@ -5,14 +5,9 @@
       <div id="metaInfos">
         <div id="baseInfos">
           <div class="baseMetas">
-            <h2
-              name=""
-              cols="30"
-              rows="1"
-              id="blogTitle"
-              style="display: none; color: #fff; text-decoration: underline"
-            ></h2>
-            <div id="blogTitleArea" style="display: none">
+            
+            <!-- on verifie si l'on est en train de créer ou de modifier un article -->
+            <div id="blogTitleArea" v-if="create">
               <h4>Titre de l'article :</h4>
               <textarea
                 cols="30"
@@ -24,6 +19,13 @@
                 Un autre post a déjà ce titre
               </p>
             </div>
+            <h2
+              name=""
+              cols="30"
+              rows="1"
+              id="blogTitle"
+              style=" color: #fff; text-decoration: underline"
+            ></h2>
           </div>
           <br />
           <div class="baseMetas">
@@ -68,6 +70,7 @@
           required
         ></textarea>
       </div>
+      <!-- on verifie si l'on est en train de créer ou de modifier un article -->
       <div v-if="create">
         <input
           type="submit"
@@ -111,6 +114,8 @@ export default {
         date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
       return newDate;
     },
+
+    // verifie qu'un titre est bien unique
     verifTitle(txt) {
       let index = 0;
       let blogLength = this.blogs.length;
@@ -153,6 +158,7 @@ export default {
         document.getElementById("errorTitle").style.display = "block";
       }
     },
+
     sendEdit() {
       if (this.isConnected()) {
         let blogContent = document.getElementById("blogContent").value;
@@ -171,6 +177,7 @@ export default {
         }
       }
     },
+    
     closeEdit() {
       let myBlogs = document.getElementById("myBlogs");
       myBlogs.style.width = "100%";

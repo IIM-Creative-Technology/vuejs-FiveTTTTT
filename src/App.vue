@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       theUser: {
-        name: "",
+        name: "a",
         email: "",
         password: "",
       },

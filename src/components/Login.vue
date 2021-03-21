@@ -43,6 +43,7 @@ export default {
     deconection() {
       this.$emit("deconnection", { name: "" });
     },
+    
     verification() {
       let name = document.getElementById("theName").value;
       let email = document.getElementById("theEmail").value;
@@ -57,6 +58,7 @@ export default {
         this.sendNewUser(name, email, password);
       }
     },
+
     sendNewUser(name, email, password) {
       this.$emit("sendNewUser", {
         name: name,

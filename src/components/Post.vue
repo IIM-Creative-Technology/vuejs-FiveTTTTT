@@ -6,6 +6,7 @@
       style="width: 200px; height: 200px"
     />
     <h2 id="theArticleTitle">{{ $route.params.titreDuPost }}</h2>
+    <!-- on lance une boucle for pour trouver quel index correspond au nom de l'article -->
     <div v-for="(blog, index) in blogs" :key="(blog, index)">
       <div v-if="blog.title == $route.params.titreDuPost">
         <p id="theArticleContent">{{ blog.content }}</p>
@@ -22,7 +23,6 @@
         </div>
       </div>
     </div>
-    <router-view @goToPost="showInfos" />
   </div>
 </template>
 
