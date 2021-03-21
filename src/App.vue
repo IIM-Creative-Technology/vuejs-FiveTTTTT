@@ -46,7 +46,7 @@ export default {
         },
         {
           content: "Cet article a été créer pour que vous le modifiez",
-          title: "z",
+          title: "",
           metaTitle: "mon_premier_blog",
           metaDescription: "ouais",
           date: "17/03/2021",
